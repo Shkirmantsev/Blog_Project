@@ -21,6 +21,8 @@ pip3 install flask
 # in folder app/
 	touch {config,app,main,view}.py
 
+pip3 install flask-sqlalchemy mysql-connector
+
 
 
 
