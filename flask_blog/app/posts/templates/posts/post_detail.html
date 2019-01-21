@@ -10,5 +10,14 @@
 {%endblock%}
 
 {% block content %}
+
+    <div class="tagslist">
+        {%for tag in tags %}
+            <a href="{{ url_for('blogbprint.tag_detail',slug=tag.slug)}}">
+                <span class="badge badge-primary">{{tag.tagname}}</span>
+            </a>
+        {% endfor %}
+    </div>
+
     {{post.body}}
 {%endblock%}

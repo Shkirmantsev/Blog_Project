@@ -23,6 +23,23 @@ pip3 install flask
 
 pip3 install flask-sqlalchemy mysql-connector
 
+pip3 install flask-migrate
+
+pip3 install flask-script
+
+python3 manage.py db init # in folder...flask_blog/app 
+
+python3 manage.py db migrate # in folder ...flask_blog/app
+
+python3 manage.py db upgrade # in folder ...flask_blog/app
+
+###### in console: python3 -->:
+from app import db
+from models import Tag
+tag=Tag(tagname='python')
+db.session.add(tag) # db.session.add_all([tag1,tag2,...])
+db.session.commit()
+
 
 
 
