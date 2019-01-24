@@ -10,7 +10,7 @@
 
 {% block content %}
 
-    {% for post in posts %}
+    {% for post in listofposts %}
         <div class="post">
             <a href="{{url_for('blogbprint.post_detail', slug=post.slug)}}">{{post.title}}</a>
         </div>

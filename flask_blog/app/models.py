@@ -1,6 +1,8 @@
 
 from app import db
 from datetime import datetime
+from sqlalchemy.sql.functions import current_timestamp
+
 import re
 
 def slugify(s):
@@ -19,7 +21,7 @@ class Post(db.Model):
     title=db.Column(db.String(140))
     slug = db.Column(db.String(140), unique=True)
     body=db.Column(db.Text)
-    created=db.Column(db.DateTime, default=datetime.now())
+    created=db.Column(db.DateTime, default=current_timestamp())
     tags = db.relationship('Tag', secondary=post_tags, backref=db.backref('posts', lazy='dynamic'))
     #tags = db.relationship('Tag', secondary=post_tags, backref='posts')
 
