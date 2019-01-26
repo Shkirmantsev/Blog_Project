@@ -37,11 +37,21 @@ def create_post():
 @posts.route('/')
 def index():
     q=request.args.get('q')
+
+    page=request.args.get('page')
+    if page and page.isdigit():
+        page=int(page)
+    else:
+        page=1
+
+
     if q:
         listofposts=Post.query.filter(Post.title.contains(q) | Post.body.contains(q))
     else:
         listofposts=Post.query.order_by(Post.created.desc())
-    return render_template('posts/index.html', listofposts=listofposts)
+
+    pagesblock = listofposts.paginate(page=page, per_page=7) #BaseQuery object with "items" property
+    return render_template('posts/index.html', pagesblock=pagesblock)
 
 # http://localhost/blog/first-post
 @posts.route('/<slug>')

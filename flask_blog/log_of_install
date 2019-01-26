@@ -40,6 +40,9 @@ tag=Tag(tagname='python')
 db.session.add(tag) # db.session.add_all([tag1,tag2,...])
 db.session.commit()
 
+####### instal in v-env: ###
+
+pip3 install wtforms
 
 
 
