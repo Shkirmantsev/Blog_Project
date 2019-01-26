@@ -44,5 +44,7 @@ db.session.commit()
 
 pip3 install wtforms
 
+pip3 install flask-admin
+
 
 

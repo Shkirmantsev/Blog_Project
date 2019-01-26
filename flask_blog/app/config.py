@@ -10,3 +10,4 @@ class Configuration(object):
     @localhost/test1 - host
     """
     SQLALCHEMY_DATABASE_URI='mysql+mysqlconnector://root:Irbhvfywtd@root0000@localhost/test1' #
+    SECRET_KEY="some_secret_text"

@@ -34,6 +34,24 @@ def create_post():
     form=PostForm()
     return render_template('posts/create_post.html', form=form)
 
+@posts.route('/<slug>/edit/', methods=['POST', 'GET'])
+def edit_post(slug):
+    post=Post.query.filter(Post.slug==slug).first()
+    if request.method=='POST':
+        form=PostForm(formdata=request.form, obj=post) # in obj is checked if there are all fields =--> form.fields==obj.fields ('title' and 'body')
+        post.title = request.form['title']
+        post.body = request.form['body']
+        form.populate_obj(post) #rewrite data in "post"s atributes from "form"
+        db.session.commit()
+
+        return redirect(url_for('blogbprint.post_detail',slug=post.slug))
+
+    form=PostForm(obj=post)
+    return render_template('posts/edit_post.html', post=post, form=form)
+
+
+
+
 @posts.route('/')
 def index():
     q=request.args.get('q')
