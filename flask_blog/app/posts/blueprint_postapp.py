@@ -40,7 +40,7 @@ def create_post():
 @posts.route('/<slug>/edit/', methods=['POST', 'GET'])
 @login_required
 def edit_post(slug):
-    post=Post.query.filter(Post.slug==slug).first()
+    post=Post.query.filter(Post.slug==slug).first_or_404()
     if request.method=='POST':
         form=PostForm(formdata=request.form, obj=post) # in obj is checked if there are all fields =--> form.fields==obj.fields ('title' and 'body')
         post.title = request.form['title']
@@ -78,13 +78,13 @@ def index():
 # http://localhost/blog/first-post
 @posts.route('/<slug>')
 def post_detail(slug):
-    post=Post.query.filter(Post.slug==slug).first()
+    post=Post.query.filter(Post.slug==slug).first_or_404()
     tags=post.tags
     return render_template('posts/post_detail.html', post=post,tags=tags)
 
 # http://localhost/blog/tag/tagname
 @posts.route('/tag/<slug>')
 def tag_detail(slug):
-    tag=Tag.query.filter(Tag.slug==slug).first()
+    tag=Tag.query.filter(Tag.slug==slug).first_or_404()
     listofposts=tag.posts.all() # because baseQuery oblect (lazy='dynamic')
     return render_template('posts/tag_detail.html', tag=tag, listofposts=listofposts)

@@ -6,6 +6,6 @@ def index():
     name='Dimon'
     return render_template('index.html',n=name)
 
-""""@app.route('/blog')
-def index2():
-    return '<h1>Hello world2</h1>'"""
+@app.errorhandler(404)
+def page_not_found(e):
+    return  render_template('404.html'), 404
