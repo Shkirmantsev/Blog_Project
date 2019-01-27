@@ -11,3 +11,7 @@ class Configuration(object):
     """
     SQLALCHEMY_DATABASE_URI='mysql+mysqlconnector://root:Irbhvfywtd@root0000@localhost/test1' #
     SECRET_KEY="some_secret_text"
+
+    ## for Flask-security
+    SECURITY_PASSWORD_SALT='CryptoSalt_as_example'
+    SECURITY_PASSWORD_HASH='sha512_crypt'

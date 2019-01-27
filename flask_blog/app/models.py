@@ -5,6 +5,8 @@ from sqlalchemy.sql.functions import current_timestamp
 
 import re
 
+from flask_security import UserMixin, RoleMixin
+
 def slugify(s):
     pattern=r'[^\w+]'
     return re.sub(pattern, '-',str(s))
@@ -50,6 +52,30 @@ class Tag(db.Model):
 
     def __repr__(self):
         return '<Tag id {}, name: {}>'.format(self.id, self.tagname)
+
+#### for flask security ###
+
+# Table for relation many-to-many (Role-User):
+roles_users=db.Table('roles_users',
+                     db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+                     db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
+                     )
+
+
+
+
+
+class User(db.Model, UserMixin):
+    id=db.Column(db.Integer(), primary_key=True)
+    email=db.Column(db.String(100), unique=True)
+    password=db.Column(db.String(255)) # encrypted password
+    active=db.Column(db.Boolean())
+    roles=db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
+
+class Role(db.Model, UserMixin):
+    id=db.Column(db.Integer(), primary_key=True)
+    name=db.Column(db.String(100), unique=True)
+    description=db.Column(db.String(255))
 
 if __name__ == '__main__':
     from app import db
