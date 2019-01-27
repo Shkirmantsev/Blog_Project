@@ -24,12 +24,13 @@ migrate=Migrate(app, db)
 manager=Manager(app)
 manager.add_command('db', MigrateCommand)
 
-##:5000/admin###
+##:5000/admin    ###########################
+
 from models import * # also for Flask-security "user_datastore", under
 
 
-class AdminView(ModelView):
-    def is_accessible(self):                  # method "is_accessible" from "ModelView" will be overrided. It is working automatically for each view
+class AdminMixinDelegator: # Class-agregator with overridden methods
+    def is_accessible(self):                  # method "is_accessible" from "ModelView" or "AdminIndexView" will be overrided. It is working automatically for each view
         return current_user.has_role('admin') # "restrict access to third part people to our admin-menu
 
     # if not accessible then automatically this method:
@@ -37,18 +38,32 @@ class AdminView(ModelView):
         #localhost/admin is "next"
         return redirect(url_for('security.login', next=request.url)) # 'security.login' is the name of blueprint of flask-security. next is url, where user was going before login
 
-class InitialPanAdminView(AdminIndexView):
-    def is_accessible(self):                  # method "is_accessible" from "ModelView" will be overrided. It is working automatically for each view
-        return current_user.has_role('admin') # "restrict access to third part people to our admin-menu
 
-    # if not accessible then automatically this method:
-    def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('security.login', next=request.url)) # 'security.login' is the name of blueprint of flask-security. next is url, where user was going before login
+class AdminView(AdminMixinDelegator, ModelView):
+    pass
+class InitialPanAdminView(AdminMixinDelegator, AdminIndexView):
+    pass
 
+
+"""method "generate_slug()" in admin-pannel don't works without this method. flask-admin works differently
+    compared to the class of our model Post and Tag"""
+
+class ModifyedModelViewMethod(ModelView):
+
+    def on_model_change(self, form, model, is_created):
+        model.generate_slug()
+        return super(ModifyedModelViewMethod, self).on_model_change(form,model,is_created)
+
+class PostAdminView(AdminView, ModifyedModelViewMethod): #Repair problem with "generate_slug" function
+    form_columns = ['title', 'body','tags','created'] #wich fields to show
+class TagAdminView(AdminView, ModifyedModelViewMethod):
+    form_columns = ['tagname', 'posts'] #wich fields to show
 
 admin=Admin(app, "Back_to_Blog",url='/', index_view=InitialPanAdminView(name='HomeBookmark'))
-admin.add_view(AdminView(Post, db.session))
-admin.add_view(AdminView(Tag, db.session))
+admin.add_view(PostAdminView(Post, db.session))
+admin.add_view(TagAdminView(Tag, db.session))
+
+################# ###########################
 
 
 ###Flask-security
