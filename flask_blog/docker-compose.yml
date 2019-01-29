@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+  db:
+    build: ./db
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: Irbhvfywtd@root0000
+      # at first time, it is possible, you may need to run:
+      #MYSQL_DATABASE=test1
+
+    volumes:
+      - ${DB_PATH_HOST}:${DB_PATH_CONTAINER}:rw
+    container_name: dbincontainer
+
+  adminer:
+    build: ./adminer
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - 8080:8080
+
+  flaskapp:
+    build: ./
+    depends_on:
+      - db
+    volumes:
+      - ${APP_REQUIREMENTS_HOST}:${APP_REQUIREMENTS_CONTAINER}:ro
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    container_name: flaskcontainer
+    links:
+      - db
+    ports:
+      - 5000:5000
+    working_dir: ${APP_PATH_CONTAINER}
+
