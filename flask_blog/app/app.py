@@ -1,4 +1,4 @@
-print('starting app and importing')
+#print('starting app and importing')
 
 from flask import Flask
 from config import Configuration
@@ -17,7 +17,7 @@ from flask_security import current_user # in tamplate this method is by default,
 
 from flask import redirect,url_for, request
 
-print('first step of importing in app is compleate')
+#print('first step of importing in app is compleate')
 app=Flask(__name__)
 app.config.from_object(Configuration)
 db=SQLAlchemy(app) # Make class database SQLAlchemy for our app
@@ -28,9 +28,9 @@ manager.add_command('db', MigrateCommand)
 
 ##:5000/admin    ###########################
 
-print('trying import models')
+#print('trying import models')
 from models import * # also for Flask-security "user_datastore", under
-print('import of models is successfull')
+#print('import of models is successfull')
 
 
 class AdminMixinDelegator: # Class-agregator with overridden methods
