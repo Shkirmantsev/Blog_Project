@@ -66,7 +66,7 @@ roles_users=db.Table('roles_users',
 
 
 
-
+### Flusk Security ##
 
 class User(db.Model, UserMixin):
     id=db.Column(db.Integer(), primary_key=True)
@@ -75,7 +75,7 @@ class User(db.Model, UserMixin):
     active=db.Column(db.Boolean())
     roles=db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
 
-class Role(db.Model, UserMixin):
+class Role(db.Model, RoleMixin):
     id=db.Column(db.Integer(), primary_key=True)
     name=db.Column(db.String(100), unique=True)
     description=db.Column(db.String(255))

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>
@@ -9,46 +10,99 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="
     sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+      
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous">      
+    </script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
+    </script>
+
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-inverse bg-dark">
-      <a class="navbar-brand" href={{url_for('index')}}>Flask_main</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+  
+  <nav class="navbar fixed-top navbar-expand-md navbar-inverse bg-dark">
+  <a class="navbar-brand" href={{url_for('index')}}>Main page</a>
+  
+  <button class="btn btn-outline-info navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon">📜</span>
+  </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href={{url_for('blogbprint.index')}}>Blog <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto ">
+      <li class="nav-item active">
+        <a class="nav-link" href={{url_for('blogbprint.index')}}>📰Blog <span class="sr-only">(current)</span></a>
+      </li>
 
-              <!-- from "flask-security" automatically was imported "current_user" with method "has_role" -->
-              {% if current_user.has_role('admin')%}
-                <a class="nav-link" href="{{url_for('blogbprint.create_post')}}">Create_post</a>
-              {%else%}
-                <a class="nav-link disabled" href="{{url_for('blogbprint.create_post')}}" aria-disabled="true">Create_post</a>
-              {%endif%}
+      <!-- from "flask-security" automatically was imported "current_user" with method "has_role" -->
+      
 
-          </li>
+      {% if current_user.has_role('admin')%}
 
-        </ul>
 
-        <form class="form-inline my-2 my-lg-0" method="GET">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" name="q" value="{{request.args.get('q','')}}" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" formaction={{url_for('blogbprint.index')}}>Search</button>
-        </form>
-          {% if current_user.has_role('admin')%}
-            <a class="nav-link" href="/admin"><span style="color: red">Admin</span> </a>
-          {%else%}
-            <a class="nav-link disabled" href="/admin" aria-disabled="true">Admin</a>
-          {%endif%}
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          ✍ Edit
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{{url_for('blogbprint.create_post')}}">📝Create post</a>
+          {% block editlink %}
+          {% endblock %}
+          
+         
+          <!---<div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>--->
+        </div>
+      </li>
 
-      </div>
-    </nav>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">🗝Logout </a>
+      </li>
 
-    <div class="container">
+      <a class="nav-link" href="/admin"><span style="color: red">Admin_mod✔</span> </a>
+                
+      {%else%}
+
+
+        <li class="nav-item dropdown disabled" aria-disabled="true">
+        <a class="nav-link dropdown-toggle disabled" href="#" aria-disabled="true" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          🔏Edit
+        </a>
+        
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/login"><span style="color: green">🗝Login</span></a>
+        </li>
+        <a class="nav-link disabled" href="#" aria-disabled="true">Adminpanel🔒</a>
+                
+      {%endif%}     
+
+        
+
+
+    </ul>     
+    
+    <form class="form-inline my-2 my-lg-0" method="GET">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" name="q" value="{{request.args.get('q','')}}" aria-label="Search">          
+          
+          <button
+            class="btn btn-outline-success my-2 my-sm-0" type="submit" formaction={{url_for('blogbprint.index')}}>
+            Search
+          </button>
+
+    </form>
+
+    
+
+  </div>
+</nav>
+
+<div class="container">
         <div class="blogrow">
             <div><h1>
                 {% block content_title %}
@@ -58,6 +112,12 @@
 
                 {% block content %}
                 {% endblock %}
+
+                {% if current_user.has_role('admin')%}
+
+                  {% block editbutton %}
+                  {% endblock %}
+                {% endif%}
 
 
 

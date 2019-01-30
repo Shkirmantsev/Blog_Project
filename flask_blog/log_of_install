@@ -74,6 +74,8 @@ pip3 install flask-migrate
 
 pip3 install flask-script
 
+#### migration database
+
 python3 manage.py db init # in folder...flask_blog/app 
 
 python3 manage.py db migrate # in folder ...flask_blog/app

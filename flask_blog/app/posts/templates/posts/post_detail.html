@@ -22,3 +22,10 @@
 <article>{{post.body|safe}}</article>
 
 {%endblock%}
+
+{% block editbutton %}
+	<a class="btn btn-success" href="{{ url_for('blogbprint.edit_post',slug=post.slug)}}" role="button">Edit</a>
+{%endblock%}
+{% block editlink %}
+	<a class="dropdown-item" href="{{ url_for('blogbprint.edit_post',slug=post.slug)}}">✂Edit post</a>
+{%endblock%}
