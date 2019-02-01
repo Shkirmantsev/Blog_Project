@@ -29,7 +29,7 @@ the next steps are:
 - adding menu "create a tag" and "to tie tag" to navigation panel (now you can do it in the menu "Adminpanel")
 
 
-#if during the installation process you have problems accessing the database,
+# if during the installation process you have problems accessing the database,
 #you should make the next steps:
 -to clean folder databases;
 - to execute again "docker-compose build"
