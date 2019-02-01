@@ -9,7 +9,7 @@ in the directory ".../Blog/flask_blog/" to execute the commands:
 user# docker-compose build
 user# docker-compose up
 
-#to Enter to site
+# To Enter to site
  port for site is "name of your host":80,   or simly "name of your host"
  port for adminer is "name of your host":8080
 
