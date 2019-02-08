@@ -9,7 +9,7 @@ in the directory ".../Blog/flask_blog/" to execute the commands:
 user# docker-compose build
 user# docker-compose up
 
-#to Enter to site
+# To Enter to site
  port for site is "name of your host":80,   or simly "name of your host"
  port for adminer is "name of your host":8080
 
@@ -29,7 +29,7 @@ the next steps are:
 - adding menu "create a tag" and "to tie tag" to navigation panel (now you can do it in the menu "Adminpanel")
 
 
-#if during the installation process you have problems accessing the database,
+# if during the installation process you have problems accessing the database,
 #you should make the next steps:
 -to clean folder databases;
 - to execute again "docker-compose build"
