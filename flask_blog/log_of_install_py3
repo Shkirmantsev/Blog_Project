@@ -1,0 +1,134 @@
+# in PC
+sudo apt install virtualenv
+
+sudo apt-get install mysql-server
+sudo mysql_secure_installation
+#password is "Irbhvfywtd@root0000"
+
+sudo mysql -u root -p
+  show databases;
+  create database test1;
+  DROP DATABASE test1;
+  create database test1 character set utf8 collate utf8_unicode_ci; # none register depend
+  exit
+### IF PROBLEM https://stackoverflow.com/questions/39281594/error-1698-28000-access-denied-for-user-rootlocalhost
+#################################################################
+As you can see in the query, the root user is using the auth_socket plugin
+
+There are 2 ways to solve this:
+
+You can set the root user to use the mysql_native_password plugin
+You can create a new db_user with you system_user (recommended)
+Option 1:
+
+$ sudo mysql -u root # I had to use "sudo" since is new installation
+
+mysql> USE mysql;
+mysql> UPDATE user SET plugin='mysql_native_password' WHERE User='root';
+mysql> FLUSH PRIVILEGES;
+mysql> exit;
+
+$ service mysql restart
+Option 2: (replace YOUR_SYSTEM_USER with the username you have)
+
+$ sudo mysql -u root # I had to use "sudo" since is new installation
+
+mysql> USE mysql;
+mysql> CREATE USER 'YOUR_SYSTEM_USER'@'localhost' IDENTIFIED BY '';
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'YOUR_SYSTEM_USER'@'localhost';
+mysql> UPDATE user SET plugin='auth_socket' WHERE User='YOUR_SYSTEM_USER';
+mysql> FLUSH PRIVILEGES;
+mysql> exit;
+
+$ service mysql restart
+Remember that if you use option #2 you'll have to connect to mysql as your system username (mysql -u YOUR_SYSTEM_USER)
+
+Note: On some systems (e.g., Debian stretch) 'auth_socket' plugin is called 'unix_socket', so the corresponding SQL command should be: UPDATE user SET plugin='unix_socket' WHERE User='YOUR_SYSTEM_USER';
+
+Update: from @andy's comment seems that mysql 8.x.x updated/replaced the auth_socket for caching_sha2_password I don't have a system setup with mysql 8.x.x to test this, however the steps above should help you to understand the issue. Here's the reply:
+
+One change as of MySQL 8.0.4 is that the new default authentication plugin is 'caching_sha2_password'. The new 'YOUR_SYSTEM_USER' will have this auth plugin and you can login from the bash shell now with "mysql -u YOUR_SYSTEM_USER -p" and provide the password for this user on the prompt. No need for the "UPDATE user SET plugin" step. For the 8.0.4 default auth plugin update see, https://mysqlserverteam.com/mysql-8-0-4-new-default-authentication-plugin-caching_sha2_password/
+
+#################################################################
+
+####  or this solve:
+
+install plugin auth_socket soname 'auth_socket.so';
+use mysql; update user set plugin='mysql_native_password';
+update mysql.user set plugin = 'auth_socket' where User='root';
+flush privileges;
+
+#######################################
+
+python3 -m venv venv_flask
+
+pip3 freeze
+source venv_flask/bin/activate # to exit write 'deactivate'
+pip3 install flask
+
+# in folder app/
+	touch {config,app,main,view}.py
+
+pip3 install flask-sqlalchemy mysql-connector
+
+pip3 install flask-migrate
+
+pip3 install flask-script
+
+#### migration database
+
+python3 manage.py db init # in folder...flask_blog/app 
+
+python3 manage.py db migrate # in folder ...flask_blog/app
+
+python3 manage.py db upgrade # in folder ...flask_blog/app
+
+###### in console: python3 -->:
+from app import db
+from models import Tag
+tag=Tag(tagname='python')
+db.session.add(tag) # db.session.add_all([tag1,tag2,...])
+db.session.commit()
+
+####### instal in v-env: ###
+
+pip3 install wtforms
+
+pip3 install flask-admin
+
+pip3 install flask-security # alternative is "Flask-Bcrypt"
+
+## Editing Models
+python3 manage.py db migrate # db is the class db=SQLAlchemy(app)
+
+python3 manage.py db upgrade
+
+##### Create User for administration. in python3 console (from flask-security documentation):
+
+
+>>> from app import db
+>>> from app import user_datastore
+>>> user_datastore.create_user(email='shkirmantsev@gmail.com', password='admin')
+<User (transient 139638452752168)>
+>>> db.session.commit()
+>>> from models import User
+>>> user=User.query.first()
+>>> user
+<User 1>
+>>> user.id
+1
+>>> user.email
+'shkirmantsev@gmail.com'
+
+>>> user_datastore.create_role(name='admin', description='administrator')
+<Role (transient 139638348395016)>
+>>> db.session.commit()
+>>> from models import Role
+>>> role=Role.query.first()
+>>> user_datastore.add_role_to_user(user,role)
+True
+>>> db.session.commit()
+
+
+
+

@@ -1,6 +1,6 @@
 class Configuration(object):
     #DEBUG=True
-    #SQLALCHEMY_TRACK_MODIFICATIONS=False
+    SQLALCHEMY_TRACK_MODIFICATIONS=False
     """
     mysql+mysqlconnector://root:Irbhvfywtd@root0000@localhost/test1
     mysql - type of base
