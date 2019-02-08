@@ -1,4 +1,4 @@
-#!/mnt/data/PROJECTS/Blog/flask_blog/venv_flask/bin/python2
+#!/mnt/data/PROJECTS/Blog/flask_blog/venv_flask/bin/python3
 
 # -*- coding: utf-8 -*-
 import re

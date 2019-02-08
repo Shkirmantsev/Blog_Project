@@ -36,11 +36,13 @@ services:
     volumes:
       - ${APP_REQUIREMENTS_HOST}:${APP_REQUIREMENTS_CONTAINER}:ro
       - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+      - ${APACHECONFIG_HOST}:${APACHECONFIG_CONTAINER}
     container_name: flaskcontainer
     links:
     - "dbmysql:db"
     ports:
-      - 80:5000
+      - 80:80
+      #80:5000
     working_dir: ${APP_PATH_CONTAINER}
     restart: always
 

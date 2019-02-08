@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 #print('starting app and importing')
 
 from flask import Flask
