@@ -2,14 +2,14 @@
 by Dmitry Shkirmantsev version (2019)
 
 # To start site in one click:
-- in a choosing directory to execute the command:
+in a choosing directory to execute the command:
 
-   git clone https://github.com/Shkirmantsev/Blog.git
+- user# git clone https://github.com/Shkirmantsev/Blog.git
 
 - in the directory ".../Blog/flask_blog/" to execute the commands:
-   -- user# docker-compose build
-   -- user# docker-compose up
-   -- you can delete the folder "../Blog/flask_blog/venv_flask" (if you work only with Docker and without virtual environment)
+- user# docker-compose build
+- user# docker-compose up
+- you can delete the folder "../Blog/flask_blog/venv_flask" (if you work only with Docker and without virtual environment)
 
 # To Enter to site
  port for site is "name of your host":80,   or simly "name of your host"
