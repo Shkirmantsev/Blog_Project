@@ -1,7 +1,7 @@
 # Simple flask/Django Blog v0.4 (only the Docker flask+Apache2 version is currently available.)
 by Dmitry Shkirmantsev version (2019)
 
-#To start site in one click.
+# To start site in one click.
 - in a choosing directory to execute the command:
 
 git clone https://github.com/Shkirmantsev/Blog.git
